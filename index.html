@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#F5EFE9">
+  <title>Will You Be My Valentine?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500;1,600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="scene" data-weather="0">
+  <div id="tint"></div>
+
+  <div id="arcWrap">
+    <svg id="arcSvg" viewBox="0 0 1000 300" preserveAspectRatio="none">
+      <path class="arc-path" d="M40,230 Q500,20 960,230"></path>
+      <g id="sunDot" class="sun-dot" transform="translate(40,230)">
+        <path d="M0,-2.5 C-1.4,-5 -5,-3.6 -5,-0.4 C-5,3 -1.8,5.6 0,8 C1.8,5.6 5,3 5,-0.4 C5,-3.6 1.4,-5 0,-2.5 Z"></path>
+      </g>
+    </svg>
+  </div>
+
+  <div id="windLayer"></div>
+  <div id="leafLayer"></div>
+  <div id="rainLayer"></div>
+
+  <button id="muteBtn" aria-label="Toggle sound">Sound: On</button>
+
+  <div id="stage">
+    <div id="eyebrow">A Valentine, Whispered in Eleven Tongues</div>
+    <div id="counter"></div>
+    <h1 id="question"></h1>
+    <div id="subtitle"></div>
+    <svg id="heartRule" viewBox="0 0 14 12" aria-hidden="true">
+      <path d="M7,2 C6,-0.5 1,0.5 1,4 C1,7 5,9.5 7,11.5 C9,9.5 13,7 13,4 C13,0.5 8,-0.5 7,2 Z"></path>
+    </svg>
+    <div id="btnRow">
+      <button id="yesBtn" class="pillbtn"></button>
+      <span id="noSlot" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <button id="noBtn" class="pillbtn"></button>
+</div>
+
+<div id="page2" hidden>
+  <div class="p2-header">
+    <div class="p2-eyebrow">Three Ways to Spend the Day</div>
+    <h2 class="p2-title">Choose your Valentine's Day plan</h2>
+    <p class="p2-sub">Three plans, each considered on its own terms.</p>
+  </div>
+
+  <div id="carouselWrap">
+    <button class="carousel-arrow" id="carPrev" aria-label="Previous plan">&larr;</button>
+
+    <div id="carouselStage">
+      <article class="plan-card active" id="planCardA" data-plan="A">
+        <div class="plan-label">Plan A</div>
+        <h3 class="plan-title">The Quiet Morning</h3>
+        <p class="plan-tagline">Slow, close, unhurried.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-items">
+          <li><span class="plan-time">8:30 AM</span><span class="plan-activity"><strong>Coffee at home</strong><span>Something we make together, not bought.</span></span></li>
+          <li><span class="plan-time">9:30 AM</span><span class="plan-activity"><strong>A walk, no destination</strong><span>Wherever the street takes us.</span></span></li>
+          <li><span class="plan-time">11:00 AM</span><span class="plan-activity"><strong>Neighborhood bakery</strong><span>Split one pastry, order two coffees.</span></span></li>
+        </ul>
+        <div class="plan-actions">
+          <button class="btn" data-action="png" data-plan="A">PNG</button>
+          <button class="btn" data-action="pdf" data-plan="A">PDF</button>
+          <button class="btn primary" data-action="email" data-plan="A">Send to Email</button>
+        </div>
+      </article>
+
+      <article class="plan-card" id="planCardB" data-plan="B">
+        <div class="plan-label">Plan B</div>
+        <h3 class="plan-title">The Golden Afternoon</h3>
+        <p class="plan-tagline">Out in the light together.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-items">
+          <li><span class="plan-time">1:00 PM</span><span class="plan-activity"><strong>Picnic in the park</strong><span>A basket, a blanket, no phones.</span></span></li>
+          <li><span class="plan-time">3:00 PM</span><span class="plan-activity"><strong>Small museum or gallery</strong><span>Pick one room each, trade notes.</span></span></li>
+          <li><span class="plan-time">6:30 PM</span><span class="plan-activity"><strong>Sunset viewpoint</strong><span>Wherever is closest and highest.</span></span></li>
+        </ul>
+        <div class="plan-actions">
+          <button class="btn" data-action="png" data-plan="B">PNG</button>
+          <button class="btn" data-action="pdf" data-plan="B">PDF</button>
+          <button class="btn primary" data-action="email" data-plan="B">Send to Email</button>
+        </div>
+      </article>
+
+      <article class="plan-card" id="planCardC" data-plan="C">
+        <div class="plan-label">Plan C</div>
+        <h3 class="plan-title">The Candlelit Evening</h3>
+        <p class="plan-tagline">Dressed up, slowed down.</p>
+        <div class="plan-divider"></div>
+        <ul class="plan-items">
+          <li><span class="plan-time">7:00 PM</span><span class="plan-activity"><strong>Dinner, somewhere small</strong><span>A place with two tables and one candle.</span></span></li>
+          <li><span class="plan-time">9:00 PM</span><span class="plan-activity"><strong>A short drive</strong><span>Somewhere dark enough for stars.</span></span></li>
+          <li><span class="plan-time">9:45 PM</span><span class="plan-activity"><strong>Dessert, to go</strong><span>Eaten in the car, still warm.</span></span></li>
+        </ul>
+        <div class="plan-actions">
+          <button class="btn" data-action="png" data-plan="C">PNG</button>
+          <button class="btn" data-action="pdf" data-plan="C">PDF</button>
+          <button class="btn primary" data-action="email" data-plan="C">Send to Email</button>
+        </div>
+      </article>
+    </div>
+
+    <button class="carousel-arrow" id="carNext" aria-label="Next plan">&rarr;</button>
+  </div>
+
+  <div id="carouselDots">
+    <button class="dot active" data-index="0" aria-label="Show Plan A"></button>
+    <button class="dot" data-index="1" aria-label="Show Plan B"></button>
+    <button class="dot" data-index="2" aria-label="Show Plan C"></button>
+  </div>
+
+  <div id="p2Footer">
+    <button id="proceedBtn" class="textlink proceed">Continue &nbsp;&rarr;</button>
+  </div>
+</div>
+
+<div id="modalOverlay" aria-hidden="true">
+  <div id="modalBox" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div id="modalStep1">
+      <div class="p2-eyebrow">One Quick Step</div>
+      <h3 id="modalTitle">Before this sends anywhere</h3>
+      <p id="modalBody">A plain webpage cannot silently email anyone — typing <b>"sure"</b> below will open your email app with <b id="modalPlanName">Plan A</b> already filled in and addressed. Just hit send.</p>
+      <input id="modalInput" type="text" placeholder="Type sure to continue" autocomplete="off">
+      <div id="modalRow">
+        <button class="btn" id="modalCancel">Cancel</button>
+        <button class="btn primary" id="modalConfirm" disabled>Open Email App</button>
+      </div>
+    </div>
+    <div id="modalConfirmed">
+      <div class="p2-eyebrow">On Its Way</div>
+      <h3 id="modalTitle2">Your email app should be opening.</h3>
+      <p id="modalBody2"><b id="modalPlanName2">Plan A</b> is already filled in — just hit send. If nothing opened, copy the address below:</p>
+      <div id="modalEmailRow">
+        <code id="modalEmailText"></code>
+        <button class="btn" id="modalCopy">Copy</button>
+      </div>
+      <div id="modalRow2">
+        <button class="btn primary" id="modalClose">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="page3" hidden>
+  <div class="p3-eyebrow">A Small Bouquet, Just Because</div>
+  <div id="bouquetWrap">
+    <div id="bouquetFrame">
+      <img src="image/images.webp" alt="A bouquet of flowers" id="bouquetImg">
+    </div>
+  </div>
+  <h2 class="p3-title">Happy Valentine's Day, my love.</h2>
+  <p class="p3-sub">However the day unfolds — Plan A, B, or C, or none of them at all — I'm simply glad to be spending it with you.</p>
+  <div id="page3Footer">
+    <button id="proceedBtn2" class="textlink proceed">Continue &nbsp;&rarr;</button>
+  </div>
+</div>
+
+<div id="page4" hidden>
+  <svg class="heart-mark" viewBox="0 0 16 14" aria-hidden="true">
+    <path d="M8,2 C6.5,-0.5 1,0.5 1,4.5 C1,8 5.5,10.5 8,13 C10.5,10.5 15,8 15,4.5 C15,0.5 9.5,-0.5 8,2 Z"></path>
+  </svg>
+  <p class="main">Yours, today and every day after.</p>
+  <p class="cap">— fin —</p>
+</div>
+
+<script src="main.js" defer></script>
+</body>
+</html>
